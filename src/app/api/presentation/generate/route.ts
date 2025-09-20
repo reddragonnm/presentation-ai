@@ -6,28 +6,38 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 
-interface SlidesRequest {
-  title: string; // Presentation title
-  outline: string[]; // Array of main topics with markdown content
-  language: string; // Language to use for the slides
-  tone: string; // Style for image queries (optional)
+// interface SlidesRequest {
+//   title: string; // Presentation title
+//   outline: string[]; // Array of main topics with markdown content
+//   language: string; // Language to use for the slides
+//   tone: string; // Style for image queries (optional)
+// }
+interface SlideData {
+  title: string;
+  content: string;
 }
 
+interface SlidesRequest {
+  presentationTitle: string;
+  slides: { [key: string]: SlideData };
+  language: string;
+  tone: string;
+}
 const slidesTemplate = `
-You are an expert presentation designer.Your task is to create an engaging presentation in XML format.
-## CORE REQUIREMENTS
+You are an expert presentation designer. Your task is to structure the provided JSON content into a visually engaging presentation in XML format. Your primary role is to choose the best layout and create a relevant image query for the given text, which you must not change.
 
-1. FORMAT: Use <SECTION> tags for each slide
-2. CONTENT: DO NOT copy outline verbatim - expand with examples, data, and context
-3. VARIETY: Each slide must use a DIFFERENT layout component
-4. VISUALS: Include detailed image queries (10+ words) on every slide
+## CORE REQUIREMENTS
+1.  **FORMAT**: Use <SECTION> tags for each slide, as specified in the structure.
+2.  **CONTENT**: Use the EXACT 'title' and 'content' from the provided JSON for each slide. **DO NOT** add, remove, paraphrase, or modify the text in any way.
+3.  **VARIETY**: Each slide must use a DIFFERENT layout component from the "AVAILABLE LAYOUTS" list. Do not use the same layout twice in a row.
+4.  **VISUALS**: For each slide, create a detailed, descriptive image query (10+ words) that is highly relevant to the slide's content.
 
 ## PRESENTATION DETAILS
-- Title: {TITLE}
-- Outline (for reference only): {OUTLINE_FORMATTED}
-- Language: {LANGUAGE}
-- Tone: {TONE}
-- Total Slides: {TOTAL_SLIDES}
+-   Presentation Title: {presentationTitle}
+-   Slide Content (JSON): {slidesJson}
+-   Language: {language}
+-   Image Query Tone: {tone}
+-   Total Slides to Generate: {totalSlides}
 
 ## PRESENTATION STRUCTURE
 \`\`\`xml
@@ -146,17 +156,12 @@ Choose ONE different layout for each slide:
 <!-- NOT just: "city", "microchip", "team meeting" -->
 \`\`\`
 
-## CONTENT EXPANSION STRATEGY
-For each outline point:
-- Add supporting data/statistics
-- Include real-world examples
-- Reference industry trends
-- Add thought-provoking questions
+
 
 ## CRITICAL RULES
 1. Generate exactly {TOTAL_SLIDES} slides. NOT MORE NOT LESS ! EXACTLY {TOTAL_SLIDES}
-2. NEVER repeat layouts in consecutive slides
-3. DO NOT copy outline verbatim - expand and enhance
+2.**USE THE PROVIDED TEXT VERBATIM.** Your task is to structure, not create, content.
+3. NEVER repeat layouts in consecutive slides
 4. Include at least one detailed image query in most of the slides
 5. Use appropriate heading hierarchy
 6. Vary the SECTION layout attribute (left/right/vertical) throughout the presentation
