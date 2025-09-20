@@ -2,6 +2,7 @@ import { LangChainAdapter } from "ai";
 import { NextResponse } from "next/server";
 import { auth } from "@/server/auth";
 import { ChatOpenAI } from "@langchain/openai";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
 import { StringOutputParser } from "@langchain/core/output_parsers";
@@ -159,7 +160,7 @@ Choose ONE different layout for each slide:
 
 
 ## CRITICAL RULES
-1. Generate exactly {TOTAL_SLIDES} slides. NOT MORE NOT LESS ! EXACTLY {TOTAL_SLIDES}
+1. Generate exactly {totalSlides} slides. NOT MORE NOT LESS ! EXACTLY {totalSlides}
 2.**USE THE PROVIDED TEXT VERBATIM.** Your task is to structure, not create, content.
 3. NEVER repeat layouts in consecutive slides
 4. Include at least one detailed image query in most of the slides
@@ -168,13 +169,20 @@ Choose ONE different layout for each slide:
    - Use each layout (left, right, vertical) at least twice
    - Don't use the same layout more than twice in a row
 
-Now create a complete XML presentation with {TOTAL_SLIDES} slides that significantly expands on the outline.
+Now create a complete XML presentation with {totalSlides} slides that significantly expands on the outline.
 `;
 
-const model = new ChatOpenAI({
-  modelName: "gpt-4o-mini",
+// const model = new ChatOpenAI({
+//   modelName: "gpt-4o-mini",
+//   temperature: 0.7,
+//   streaming: true,
+// });
+
+const model = new ChatGoogleGenerativeAI({
+  model: "gemini-1.5-pro",
   temperature: 0.7,
   streaming: true,
+  apiKey: process.env.NANO_BANANA_API_KEY
 });
 
 export async function POST(req: Request) {
@@ -184,10 +192,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { title, outline, language, tone } =
+    const { presentationTitle, slides, language, tone } =
       (await req.json()) as SlidesRequest;
 
-    if (!title || !outline || !Array.isArray(outline) || !language) {
+    if (!presentationTitle || !slides || !Array.isArray(slides) || !language) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 },
@@ -199,11 +207,11 @@ export async function POST(req: Request) {
     const chain = RunnableSequence.from([prompt, model, stringOutputParser]);
 
     const stream = await chain.stream({
-      TITLE: title,
-      LANGUAGE: language,
-      TONE: tone,
-      OUTLINE_FORMATTED: outline.join("\n\n"),
-      TOTAL_SLIDES: outline.length, // +2 for title and conclusion slides
+      presentationTitle,
+      slidesJson: JSON.stringify(slides),
+      totalSlides: Object.keys(slides).length,
+      language,
+      tone: tone || "professional",
     });
 
     return LangChainAdapter.toDataStreamResponse(stream);

@@ -50,6 +50,9 @@ importers:
       '@langchain/core':
         specifier: 0.3.36
         version: 0.3.36(openai@4.89.0(zod@3.24.2))
+      '@langchain/google-genai':
+        specifier: ^0.2.18
+        version: 0.2.18(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))
       '@langchain/openai':
         specifier: ^0.4.2
         version: 0.4.8(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))
@@ -322,7 +325,7 @@ importers:
         version: 1.4.2(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       langchain:
         specifier: ^0.3.14
-        version: 0.3.19(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))(openai@4.89.0(zod@3.24.2))
+        version: 0.3.19(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2))))(openai@4.89.0(zod@3.24.2))
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
@@ -758,6 +761,10 @@ packages:
       '@fortawesome/fontawesome-svg-core': ~1 || ~6
       react: '>=16.3'
 
+  '@google/generative-ai@0.24.1':
+    resolution: {integrity: sha512-MqO+MLfM6kjxcKoy0p1wRzG3b4ZZXtPI+z2IE26UogS2Cm/XHO+7gGRBh6gcJsOiIVoH93UwKvW4HdgiOZCy9Q==}
+    engines: {node: '>=18.0.0'}
+
   '@hookform/resolvers@3.10.0':
     resolution: {integrity: sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==}
     peerDependencies:
@@ -810,6 +817,12 @@ packages:
   '@langchain/core@0.3.36':
     resolution: {integrity: sha512-lOS6f5o2MarjGPomHPhzde9xI3lZW2NIOEdCv0dvjb1ZChWhwXWHtAMHSZmuSB53ySzDWAMkimimHd+Yqz5MwQ==}
     engines: {node: '>=18'}
+
+  '@langchain/google-genai@0.2.18':
+    resolution: {integrity: sha512-m9EiN3VKC01A7/625YQ6Q1Lqq8zueewADX4W5Tcme4RImN75zkg2Z7FYbD1Fo6Zwolc4wBNO6LUtbg3no4rv1Q==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@langchain/core': '>=0.3.58 <0.4.0'
 
   '@langchain/openai@0.4.8':
     resolution: {integrity: sha512-oEQAmFxeBCGR/OwIMp+p39ZzzCRVuzrF81WUEBwGTNvNYwklXNZBE+vkgEY52bS8daNtSC6MDmLJzXlDBI56lg==}
@@ -5337,6 +5350,10 @@ packages:
     resolution: {integrity: sha512-8XkAphELsDnEGrDxUOHB3RGvXz6TeuYSGEZBOjtTtPm2lwhGBjLgOzLHB63IUWfBpNucQjND6d3AOudO+H3RWQ==}
     hasBin: true
 
+  uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+
   v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
 
@@ -5727,6 +5744,8 @@ snapshots:
       prop-types: 15.8.1
       react: 18.2.0
 
+  '@google/generative-ai@0.24.1': {}
+
   '@hookform/resolvers@3.10.0(react-hook-form@7.54.2(react@18.2.0))':
     dependencies:
       react-hook-form: 7.54.2(react@18.2.0)
@@ -5797,6 +5816,12 @@ snapshots:
       zod-to-json-schema: 3.24.5(zod@3.24.2)
     transitivePeerDependencies:
       - openai
+
+  '@langchain/google-genai@0.2.18(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))':
+    dependencies:
+      '@google/generative-ai': 0.24.1
+      '@langchain/core': 0.3.36(openai@4.89.0(zod@3.24.2))
+      uuid: 11.1.0
 
   '@langchain/openai@0.4.8(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))':
     dependencies:
@@ -8464,7 +8489,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1):
+  eslint-module-utils@2.12.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1)(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -8486,7 +8511,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1(eslint-plugin-import@2.31.0)(eslint@8.57.1))(eslint@8.57.1)
+      eslint-module-utils: 2.12.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.9.1)(eslint@8.57.1)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -9145,7 +9170,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.3.19(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))(openai@4.89.0(zod@3.24.2)):
+  langchain@0.3.19(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))(@langchain/google-genai@0.2.18(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2))))(openai@4.89.0(zod@3.24.2)):
     dependencies:
       '@langchain/core': 0.3.36(openai@4.89.0(zod@3.24.2))
       '@langchain/openai': 0.4.8(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))
@@ -9160,6 +9185,8 @@ snapshots:
       yaml: 2.7.0
       zod: 3.24.2
       zod-to-json-schema: 3.24.5(zod@3.24.2)
+    optionalDependencies:
+      '@langchain/google-genai': 0.2.18(@langchain/core@0.3.36(openai@4.89.0(zod@3.24.2)))
     transitivePeerDependencies:
       - encoding
       - openai
@@ -10793,6 +10820,8 @@ snapshots:
   util-deprecate@1.0.2: {}
 
   uuid@10.0.0: {}
+
+  uuid@11.1.0: {}
 
   v8-compile-cache-lib@3.0.1: {}
 
