@@ -1,7 +1,7 @@
 import { LangChainAdapter } from "ai";
 import { NextResponse } from "next/server";
 import { auth } from "@/server/auth";
-import { ChatOpenAI } from "@langchain/openai";
+
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
@@ -172,14 +172,8 @@ Choose ONE different layout for each slide:
 Now create a complete XML presentation with {totalSlides} slides that significantly expands on the outline.
 `;
 
-// const model = new ChatOpenAI({
-//   modelName: "gpt-4o-mini",
-//   temperature: 0.7,
-//   streaming: true,
-// });
-
 const model = new ChatGoogleGenerativeAI({
-  model: "gemini-1.5-pro",
+  model: "gemini-2.5-flash",
   temperature: 0.7,
   streaming: true,
   apiKey: process.env.NANO_BANANA_API_KEY
@@ -192,9 +186,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { presentationTitle, slides, language, tone } =
-      (await req.json()) as SlidesRequest;
+    const { title, outline, language, tone } =
+      (await req.json());
 
+    const presentationTitle = title;
+    const slides = outline;
     if (!presentationTitle || !slides || !Array.isArray(slides) || !language) {
       return NextResponse.json(
         { error: "Missing required fields" },

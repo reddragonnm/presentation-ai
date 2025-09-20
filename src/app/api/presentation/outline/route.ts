@@ -1,7 +1,7 @@
 import { LangChainAdapter } from "ai";
 import { NextResponse } from "next/server";
 import { auth } from "@/server/auth";
-import { ChatOpenAI } from "@langchain/openai";
+
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { RunnableSequence } from "@langchain/core/runnables";
@@ -48,14 +48,9 @@ Make sure the topics:
 
 const outlineChain = RunnableSequence.from([
   PromptTemplate.fromTemplate(outlineTemplate),
-  // new ChatOpenAI({
-  //   modelName: "gpt-4o-mini",
-  //   temperature: 0.7,
-  //   streaming: true,
-  // }),
 
   new ChatGoogleGenerativeAI({
-    model: "gemini-1.5-pro",
+    model: "gemini-2.5-flash",
     temperature: 0.7,
     streaming: true,
     apiKey: process.env.NANO_BANANA_API_KEY
