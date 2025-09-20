@@ -30,35 +30,48 @@ const config = {
         "grid-pattern": "20px 20px",
       },
       colors: {
-        border: "hsl(var(--border))",
+        // Primary colors based on design specification
+        border: "hsl(var(--border))", // #ADB5BD - Subtle borders and dividers
         input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        ring: "hsl(var(--ring))", // #212529 - Dark text color for focus rings
+        background: "hsl(var(--background))", // #F8F9FA - Very light off-white/gray
+        foreground: "hsl(var(--foreground))", // #212529 - Very dark gray, almost black
+        
+        // Primary and accent colors
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "hsl(var(--primary))", // #20C997 - Primary Green
+          foreground: "hsl(var(--primary-foreground))", // White
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "hsl(var(--secondary))", // #6C757D - Secondary Text
+          foreground: "hsl(var(--secondary-foreground))", // #F8F9FA
         },
+        accent: {
+          DEFAULT: "hsl(var(--accent))", // #20C997 - Primary Green
+          foreground: "hsl(var(--accent-foreground))", // White
+        },
+        
+        // Utility colors
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "hsl(var(--muted))", // #F8F9FA
+          foreground: "hsl(var(--muted-foreground))", // #6C757D
         },
-        dbi: {
-          DEFAULT: "hsl(var(--dbi))",
-          background: "hsl(var(--dbi-background))",
+        
+        // Brand and subtle colors
+        brand: {
+          DEFAULT: "hsl(var(--brand))", // #6F42C1 - Avatar Background
+          foreground: "hsl(var(--brand-foreground))", // White
         },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+        subtle: {
+          DEFAULT: "hsl(var(--subtle))", // #ADB5BD - Subtle Text & Borders
+          foreground: "hsl(var(--subtle-foreground))", // White
         },
+        
+        // Popover and card colors
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -66,21 +79,6 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
-        brand: {
-          DEFAULT: "hsl(var(--brand))",
-          foreground: "hsl(var(--brand-foreground))",
-        },
-        highlight: {
-          DEFAULT: "hsl(var(--highlight))",
-          foreground: "hsl(var(--highlight-foreground))",
         },
       },
       borderRadius: {
